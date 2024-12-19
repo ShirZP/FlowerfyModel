@@ -38,11 +38,12 @@ val_data ='../dataset/val'
 
 # Create a Pandas DataFrame with a single column
 # The column is populated with the list of file/directory names in the 'validation_data' directory
-pd.DataFrame(os.listdir(val_data),columns=['File Name'])
+pd.DataFrame(os.listdir(val_data), columns=['File Name'])
 
 
 # Get a list of the file paths in the 'train_data' directory
 train_files = [i for i in glob.glob(train_data + "/*/*")]
+train_files = [i.replace("\\", "/") for i in train_files]
 
 # Randomly shuffle the list of file paths
 np.random.shuffle(train_files)
@@ -63,6 +64,7 @@ print(training_data)
 
 # Get a list of the file paths in the 'validation_data' directory
 val_files = [i for i in glob.glob(val_data + "/*/*")]
+val_files = [i.replace("\\", "/") for i in val_files]
 
 # Randomly shuffle the list of file paths
 np.random.shuffle(val_files)
@@ -75,7 +77,7 @@ data = zip(val_files, labels)
 
 # Create a Pandas DataFrame with 2 columns
 # "Path" column contains file paths, & "Label" column contains corresponding labels
-validation_data = pd.DataFrame(data, columns = ["Path", "Label"])
+validation_data = pd.DataFrame(data, columns=["Path", "Label"])
 
 # Display the contents of the DataFrame
 print(validation_data)
@@ -154,6 +156,7 @@ print("Total no. of unique labels:", total_labels)
 
 
 #---------------???????????---------------------------
+"""
 # Set the number of rows and columns for the subplot grid
 no_of_rows = 2
 no_of_columns = 4
@@ -191,7 +194,7 @@ for i in range(no_of_rows):
             axes[i, j].text(0.5, -0.1, label, ha='center', transform=axes[i, j].transAxes)
 # Show the entire subplot grid
 plt.show()
-
+"""
 
 #------------------------------Build Model-----------------------------
 
@@ -240,7 +243,7 @@ model.summary()
 
 # Create a ModelCheckpoint callback to save the model's weights during training
 # The 'save_best_only' option ensures that only the best model (based on validation performance) is saved
-checkpoint = ModelCheckpoint("../model/model.ckpt", save_best_only = True)
+checkpoint = ModelCheckpoint("../model/model.keras", save_best_only = True)
 
 # Create an EarlyStopping callback to stop training if the validation performance doesn't improve for a specified number of epochs (patience)
 # The 'restore_best_weights' option restores the best weights when training is stopped
@@ -268,7 +271,7 @@ hist = model.fit(
 )
 
 # Load the weights of the trained model from the specified checkpoint file
-model.load_weights("../model/model.ckpt")
+model = tf.keras.models.load_model("../model/model.keras")
 
 # Create a Pandas DataFrame containing the training history (metrics) of the model
 train_history = pd.DataFrame(hist.history)
@@ -307,8 +310,8 @@ test_image_data_generator = ImageDataGenerator(
 # Create a generator for test data using a dataframe
 test_generator = test_image_data_generator.flow_from_dataframe(
     dataframe=validation_data,
-    x_col="path",             # Column containing file paths
-    y_col='label',            # Column containing class labels
+    x_col="Path",             # Column containing file paths
+    y_col='Label',            # Column containing class labels
     batch_size=32,            # Batch size for training
     class_mode="categorical", # Type of classification task
     target_size=(224, 224),   # Target size for images
@@ -328,52 +331,5 @@ Accuracy = [('Validation', validation_score, validation_accuracy),
          ]
 
 # Create a DataFrame using the loss & accuracy data of both test & validation
-predict_test = pd.DataFrame(data = Accuracy, columns=['Model', 'Loss', 'Accuracy'])
-predict_test
-
-
-# Function to extract the class name from the image path
-def extract_class_name(image_path):
-    return os.path.basename(os.path.dirname(image_path))
-
-# Load and preprocess the image
-img_path = '/kaggle/input/flower-classification/val/calendula/45993517234_5e4dfdefae_c.jpg'
-img = image.load_img(img_path, target_size=(224, 224))
-img_array = image.img_to_array(img)
-img_array = np.expand_dims(img_array, axis=0)
-img_array = preprocess_input(img_array)
-
-# Make predictions
-predictions = model.predict(img_array)
-
-# Interpret the results
-predicted_class = np.argmax(predictions)
-predicted_class_label = labels[predicted_class]
-
-# Extract the true class name from the image path
-true_class_label = extract_class_name(img_path)
-
-# Display the image
-img = Image.open(img_path)
-plt.imshow(img)
-plt.axis('off')
-plt.show()
-
-
-# Display the results
-print(f"True class (Real Name of flower): {true_class_label}")
-print(f"Predicted class (Classified name of flower): {predicted_class_label}")
-print(f"Predicted probabilities: {predictions[0]}")
-
-# Get the top predicted classes and their probabilities
-top_classes = 3  # Set the number of top classes to display
-top_indices = np.argsort(predictions[0])[::-1][:top_classes]
-
-print("\nTop predictions:")
-for i in range(top_classes):
-    index = top_indices[i]
-    label = labels[index]
-    probability = predictions[0][index]
-
-    # Format the print statement with the complete decimal and limited percentage
-    print(f"{i + 1}: {label} ({probability * 100:.2f}% | {probability:.17f})")
+predict_test = pd.DataFrame(data=Accuracy, columns=['Model', 'Loss', 'Accuracy'])
+print(predict_test)

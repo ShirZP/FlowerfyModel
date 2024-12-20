@@ -1,54 +1,77 @@
 import glob
 import os
-import numpy as np
 import pandas as pd
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
 from PIL import Image
 import matplotlib.pyplot as plt
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import numpy as np
+
+
 
 # Load the weights of the trained model from the specified checkpoint file
-model = load_model("../model/model.keras")
+model = load_model("../model/modelv2.keras")
+
+labels = ["astilbe", "bellflower", "black_eyed_susan", "calendula", "california_poppy", "carnation", "common_daisy", "coreopsis", "dandelion", "iris", "rose", "sunflower", "tulip", "water_lily"]
+
 
 # If not already done, reload validation data
 val_data = '../dataset/val'
 val_files = [i.replace("\\", "/") for i in glob.glob(val_data + "/*/*")]
 np.random.shuffle(val_files)
-labels = [os.path.dirname(i).split("/")[-1] for i in val_files]
-data = zip(val_files, labels)
+val_labels = [os.path.dirname(i).split("/")[-1] for i in val_files]
+data = zip(val_files, val_labels)
 validation_data = pd.DataFrame(data, columns=["Path", "Label"])
 
-# Create a test data generator
-test_image_data_generator = ImageDataGenerator(rescale=1.0 / 255)
-test_generator = test_image_data_generator.flow_from_dataframe(
-    dataframe=validation_data,
-    x_col="Path",             # Column containing file paths
-    y_col="Label",            # Column containing class labels
-    batch_size=32,            # Batch size for testing
-    class_mode="categorical", # Type of classification task
-    target_size=(224, 224),   # Target size for images
-)
+results = []
 
-# Evaluate the model on the test data
-test_score, test_accuracy = model.evaluate(test_generator)
-print('Test Loss = {:.2%}'.format(test_score), '|', test_score)
-print('Test Accuracy = {:.2%}'.format(test_accuracy), '|', test_accuracy, '\n')
+# לולאה על כל השורות ב-validation_data
+for idx, row in validation_data.iterrows():
+    img_path = row["Path"]
+    true_label = row["Label"]
+
+    # טעינת התמונה
+    img = image.load_img(img_path, target_size=(224, 224))
+    img_array = np.expand_dims(image.img_to_array(img), axis=0) / 255.0  # נרמול התמונה
+
+    # הפקת תחזיות
+    predictions = model.predict(img_array)
+    predicted_class = np.argmax(predictions)
+    predicted_class_label = labels[predicted_class]
+
+    # שמירת התוצאה
+    results.append({
+        'image_path': img_path,
+        'true_label': true_label,
+        'predicted_label': predicted_class_label
+    })
 
 
+
+df = pd.DataFrame(results)
+df.to_csv("../model/model_results.csv", index=False)
+
+incorrect_predictions = df[df['true_label'] == df['predicted_label']]
+incorrect_predictions.to_csv("../model/correct_predictions.csv", index=False)
+
+
+
+"""
 #-----------------------------Make Predictions (Classify Images)---------------------
 
 # Make a prediction on a single image
 def extract_class_name(image_path):
     return os.path.basename(os.path.dirname(image_path))
 
-img_path = '../dataset/val/water_lily/375534490_c9e9a062f4_c.jpg'
+img_path = ''
 img = image.load_img(img_path, target_size=(224, 224))
 img_array = np.expand_dims(image.img_to_array(img), axis=0) / 255.0  # Normalize the image
 predictions = model.predict(img_array)
 predicted_class = np.argmax(predictions)
-predicted_class_label = validation_data['Label'].unique()[predicted_class]
+predicted_class_label = labels[predicted_class]
 true_class_label = extract_class_name(img_path)
+
 
 # Display the image and results
 plt.imshow(Image.open(img_path))
@@ -66,8 +89,9 @@ top_indices = np.argsort(predictions[0])[::-1][:top_classes]
 print("\nTop predictions:")
 for i in range(top_classes):
     index = top_indices[i]
-    label = validation_data['Label'].unique()[index]
+    label = labels[index]
     probability = predictions[0][index]
 
     # Format the print statement with the complete decimal and limited percentage
     print(f"{i + 1}: {label} ({probability * 100:.2f}% | {probability:.17f})")
+"""

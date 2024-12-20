@@ -84,7 +84,7 @@ print(validation_data)
 
 
 # Data Visualization
-"""
+
 # Create a countplot() using Seaborn, where x-axis represents the "Label" column of the training_data DataFrame
 sns.countplot(x = training_data["Label"])
 
@@ -98,7 +98,6 @@ sns.countplot(x = validation_data["Label"])
 # Rotate x-axis labels for better visibility
 plt.xticks(rotation = 50);
 
-"""
 
 # ----------------------Split Dataset----------------------------
 
@@ -243,7 +242,7 @@ model.summary()
 
 # Create a ModelCheckpoint callback to save the model's weights during training
 # The 'save_best_only' option ensures that only the best model (based on validation performance) is saved
-checkpoint = ModelCheckpoint("../model/model.keras", save_best_only = True)
+checkpoint = ModelCheckpoint("../model/modelv2.keras", save_best_only = True)
 
 # Create an EarlyStopping callback to stop training if the validation performance doesn't improve for a specified number of epochs (patience)
 # The 'restore_best_weights' option restores the best weights when training is stopped
@@ -271,7 +270,7 @@ hist = model.fit(
 )
 
 # Load the weights of the trained model from the specified checkpoint file
-model = tf.keras.models.load_model("../model/model.keras")
+model = tf.keras.models.load_model("../model/modelv2.keras")
 
 # Create a Pandas DataFrame containing the training history (metrics) of the model
 train_history = pd.DataFrame(hist.history)
@@ -333,3 +332,20 @@ Accuracy = [('Validation', validation_score, validation_accuracy),
 # Create a DataFrame using the loss & accuracy data of both test & validation
 predict_test = pd.DataFrame(data=Accuracy, columns=['Model', 'Loss', 'Accuracy'])
 print(predict_test)
+
+
+# Create a test data generator
+test_image_data_generator = ImageDataGenerator(rescale=1.0 / 255)
+test_generator = test_image_data_generator.flow_from_dataframe(
+    dataframe=validation_data,
+    x_col="Path",             # Column containing file paths
+    y_col="Label",            # Column containing class labels
+    batch_size=32,            # Batch size for testing
+    class_mode="categorical", # Type of classification task
+    target_size=(224, 224),   # Target size for images
+)
+
+# Evaluate the model on the test data
+test_score, test_accuracy = model.evaluate(test_generator)
+print('Test Loss = {:.2%}'.format(test_score), '|', test_score)
+print('Test Accuracy = {:.2%}'.format(test_accuracy), '|', test_accuracy, '\n')

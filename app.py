@@ -29,7 +29,6 @@ class_mapping_flower = {
 def load_flower_model():
     # Local path to save the downloaded model file
     local_model_path = './modelv2.keras'  # You can adjust the path as needed
-
     """
     # Google Drive direct link to the shared model file
     drive_url = 'https://drive.google.com/drive/folders/1aTpSSn11zzGbMZMWbixy1tKJJng6eU0P?usp=sharing'
@@ -37,7 +36,6 @@ def load_flower_model():
     # Download the model file using gdown
     response = gdown.download(drive_url, output=local_model_path, quiet=False)
     """
-
     # Load the entire model from the .keras file
     model = tf.keras.models.load_model(local_model_path)
 

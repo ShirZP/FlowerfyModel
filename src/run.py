@@ -16,7 +16,6 @@ from tensorflow.keras.applications import InceptionV3
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.inception_v3 import preprocess_input
 
-
 # scikit-learn
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.metrics import classification_report

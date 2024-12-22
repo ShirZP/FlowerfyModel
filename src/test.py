@@ -8,12 +8,10 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 
-
 # Load the weights of the trained model from the specified checkpoint file
 model = load_model("../model/modelv2.keras")
 
 labels = ["astilbe", "bellflower", "black_eyed_susan", "calendula", "california_poppy", "carnation", "common_daisy", "coreopsis", "dandelion", "iris", "rose", "sunflower", "tulip", "water_lily"]
-
 
 #-----------------------------Make Predictions (Classify Images)---------------------
 

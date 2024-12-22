@@ -1,4 +1,6 @@
 /dataset
+/model/model.keras
+/model/modelv2.keras
 # Default ignored files
 /shelf/
 /workspace.xml

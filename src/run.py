@@ -21,6 +21,7 @@ from tensorflow.keras.applications.inception_v3 import preprocess_input
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.metrics import classification_report
 
+#--------------------------- Read Dataset ----------------------------
 
 # Define the path to the directory containing the images for training
 train_data = '../dataset/train'
@@ -83,7 +84,7 @@ validation_data = pd.DataFrame(data, columns=["Path", "Label"])
 print(validation_data)
 
 
-# Data Visualization
+#----------------------------- Data Visualization ----------------------------
 
 # Create a countplot() using Seaborn, where x-axis represents the "Label" column of the training_data DataFrame
 sns.countplot(x = training_data["Label"])
@@ -278,6 +279,8 @@ train_history = pd.DataFrame(hist.history)
 # Display the DataFrame
 print(train_history)
 
+
+"""
 #----------------------------Evaluate Model--------------------------
 
 #  Evaluate the model on the validation data generator
@@ -349,3 +352,4 @@ test_generator = test_image_data_generator.flow_from_dataframe(
 test_score, test_accuracy = model.evaluate(test_generator)
 print('Test Loss = {:.2%}'.format(test_score), '|', test_score)
 print('Test Accuracy = {:.2%}'.format(test_accuracy), '|', test_accuracy, '\n')
+"""

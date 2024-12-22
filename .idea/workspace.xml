@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ee3c726e-6a8c-4b66-ac55-47f795264184" name="Changes" comment="commit 3">
-      <change afterPath="$PROJECT_DIR$/src/test3.py" afterDir="false" />
+    <list default="true" id="ee3c726e-6a8c-4b66-ac55-47f795264184" name="Changes" comment="commit 8">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,15 +30,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.run.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test3.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.Accuracy.executor": "Run",
+    "Python.evaluate_model.executor": "Run",
+    "Python.run.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.test3.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\shirp\PycharmProjects\Flowerfy\dataset" />
@@ -96,14 +95,87 @@
       <option name="project" value="LOCAL‎" />
       <updated>1734638077085</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL‎-00005" summary="commit 4">
+      <option name="closed" value="true" />
+      <created>1734682401583</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL‎-00005" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1734682401583</updated>
+    </task>
+    <task id="LOCAL‎-00006" summary="add model.keras">
+      <option name="closed" value="true" />
+      <created>1734682629403</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL‎-00006" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1734682629403</updated>
+    </task>
+    <task id="LOCAL‎-00007" summary="commit 5">
+      <option name="closed" value="true" />
+      <created>1734684201333</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL‎-00007" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1734684201333</updated>
+    </task>
+    <task id="LOCAL‎-00008" summary="commit 6">
+      <option name="closed" value="true" />
+      <created>1734805296035</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL‎-00008" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1734805296035</updated>
+    </task>
+    <task id="LOCAL‎-00009" summary="commit 7">
+      <option name="closed" value="true" />
+      <created>1734854310006</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL‎-00009" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1734854310006</updated>
+    </task>
+    <task id="LOCAL‎-00010" summary="commit 7">
+      <option name="closed" value="true" />
+      <created>1734854666688</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL‎-00010" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1734854666688</updated>
+    </task>
+    <task id="LOCAL‎-00011" summary="commit 8">
+      <option name="closed" value="true" />
+      <created>1734854816899</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL‎-00011" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1734854816899</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="run.py" />
     <MESSAGE value="commit 1" />
     <MESSAGE value="commit 2" />
     <MESSAGE value="commit 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit 3" />
+    <MESSAGE value="commit 4" />
+    <MESSAGE value="add model.keras" />
+    <MESSAGE value="commit 5" />
+    <MESSAGE value="commit 6" />
+    <MESSAGE value="commit 7" />
+    <MESSAGE value="commit 8" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit 8" />
   </component>
 </project>

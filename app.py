@@ -9,58 +9,37 @@ from keras.applications.inception_v3 import preprocess_input
 # Class mapping for flower classification
 class_mapping_flower = {
     0: 'Astilbe',
-    1: 'Black-Eyed Susan',
-    2: 'Bellflower',
-    3: 'Common Daisy',
-    4: 'Coreopsis',
-    5: 'Dandelion',
-    6: 'Water Lily',
-    7: 'Carnation',
-    8: 'Calendula',
-    9: 'California Poppy',
-    10: 'Sunflower',
-    11: 'Tulip',
-    12: 'Rose',
-    13: 'Iris',
+    1: 'Bellflower',
+    2: 'Black-Eyed Susan',
+    3: 'Calendula',
+    4: 'California Poppy',
+    5: 'Carnation',
+    6: 'Common Daisy',
+    7: 'Coreopsis',
+    8: 'Dandelion',
+    9: 'Iris',
+    10: 'Rose',
+    11: 'Sunflower',
+    12: 'Tulip',
+    13: 'Water Lily',
 }
 
 # Function to load the flower classification model
 @st.cache(allow_output_mutation=True)
 def load_flower_model():
+    # Local path to save the downloaded model file
+    local_model_path = './modelv2.keras'  # You can adjust the path as needed
+
+    """
     # Google Drive direct link to the shared model file
     drive_url = 'https://drive.google.com/drive/folders/1aTpSSn11zzGbMZMWbixy1tKJJng6eU0P?usp=sharing'
     
-    # Local path to save the downloaded model file
-    local_model_path = './model.ckpt'  # You can adjust the path as needed
-    
     # Download the model file using gdown
     response = gdown.download(drive_url, output=local_model_path, quiet=False)
+    """
 
-    # Load the InceptionV3 base model
-    input_shape = (224, 224, 3)
-    base_model = InceptionV3(weights='imagenet', include_top=False, input_shape=input_shape)
-
-    # Create a sequential model
-    model = tf.keras.models.Sequential()
-
-    # Add the InceptionV3 base model to the sequential model
-    model.add(base_model)
-
-    # Add a global average pooling layer to reduce the spatial dimensions of the output
-    model.add(tf.keras.layers.GlobalAveragePooling2D())
-
-    # Add a dense layer with 256 units and ReLU activation function
-    model.add(tf.keras.layers.Dense(256, activation='relu'))
-
-    # Add a dropout layer to prevent overfitting
-    model.add(tf.keras.layers.Dropout(0.5))
-
-    # Add the final dense layer with the number of labels and softmax activation function
-    total_labels = len(class_mapping_flower)
-    model.add(tf.keras.layers.Dense(total_labels, activation='softmax'))
-
-    # Load the weights of the trained model
-    model.load_weights(local_model_path)
+    # Load the entire model from the .keras file
+    model = tf.keras.models.load_model(local_model_path)
 
     return model
 

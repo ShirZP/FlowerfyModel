@@ -1,6 +1,8 @@
+
 /dataset
 /model/model.keras
 /model/modelv2.keras
+/model/model.tflite
 
 # Default ignored files
 /shelf/

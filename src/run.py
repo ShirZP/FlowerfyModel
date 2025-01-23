@@ -154,61 +154,13 @@ print("Labels: ", labels)
 print("Total no. of unique labels:", total_labels)
 
 
-#---------------???????????---------------------------
-"""
-# Set the number of rows and columns for the subplot grid
-no_of_rows = 2
-no_of_columns = 4
-
-# Create a subplot grid with the specified number of rows and columns
-fig, axes = plt.subplots(no_of_rows, no_of_columns, figsize=(12, 8))
-
-# Iterate through the rows
-for i in range(no_of_rows):
-    # Iterate through the columns
-    for j in range(no_of_columns):
-        # Calculate the index for accessing the data
-        index = i * no_of_columns + j
-
-        # Check if the index is within the bounds of the data
-        if index < len(training_data):
-
-            # Open the image using the PIL library
-            im = Image.open(training_data.iloc[index]['Path'])
-
-            # Convert the PIL image to a NumPy array
-            img = np.array(im)
-
-            # Print the shape of the image array
-            print(img.shape)
-
-            # Display the image on the subplot at position (i, j)
-            axes[i, j].imshow(img)
-
-            # Turn off axis labels for better visualization
-            axes[i, j].axis('off')
-
-            # Get the label for the current image and display it as text
-            label = training_data.iloc[index]['Label']
-            axes[i, j].text(0.5, -0.1, label, ha='center', transform=axes[i, j].transAxes)
-# Show the entire subplot grid
-plt.show()
-"""
-
-#------------------------------Build Model-----------------------------
+# --------------------------------------------Build Model--------------------------------------------
 
 # Define the input shape for the model
 input_shape = (224, 224, 3)
 
 # Path to the manually downloaded InceptionV3 weights file
 weights_path = '../model/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5'
-
-# Check if the weights file exists locally, otherwise download manually
-if not os.path.exists(weights_path):
-    print(f"Downloading InceptionV3 weights manually to {weights_path}...")
-    # You can download the weights from https://storage.googleapis.com/tensorflow/keras-applications/inception_v3/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5
-    print("Please download the weights file manually and place it in the same directory as your script.")
-    exit()
 
 # Load the InceptionV3 model with the manually downloaded weights
 base_model = InceptionV3(weights=weights_path, include_top=False, input_shape=input_shape)
@@ -249,7 +201,7 @@ checkpoint = ModelCheckpoint("../model/modelv2.keras", save_best_only = True)
 early_stopping = EarlyStopping(patience = 5, restore_best_weights = True)
 
 
-#--------------------------Compile Model---------------------
+# ---------------------------------------------Compile Model------------------------------------------------------
 
 # Compile the model with the Adam optimizer, categorical crossentropy loss, & accuracy as the evaluation metric
 model.compile(optimizer = 'Adam',
@@ -257,7 +209,7 @@ model.compile(optimizer = 'Adam',
               metrics = ['accuracy'])
 
 
-#------------------------------Train Model---------------------------------
+# ----------------------------------------------Train Model-------------------------------------------------------
 
 # Train the model using the fit method
 hist = model.fit(
@@ -277,78 +229,3 @@ train_history = pd.DataFrame(hist.history)
 
 # Display the DataFrame
 print(train_history)
-
-
-"""
-#----------------------------Evaluate Model--------------------------
-
-#  Evaluate the model on the validation data generator
-validation_score, validation_accuracy = model.evaluate(val_generator)
-
-# Display validation loss & accuracy
-print('Validation Loss = {:.2%}'.format(validation_score), '|', validation_score)
-print('Validation Accuracy = {:.2%}'.format(validation_accuracy), '|', validation_accuracy, '\n')
-
-# Plot line graphs with training & validation loss on the left, and training & validation accuracy on the right
-plt.figure(figsize=(15,5))
-plt.subplot(1,2,1)
-plt.plot(train_history['loss'],label='Training Loss')
-plt.plot(train_history['val_loss'],label='Validation Loss')
-plt.title('Training & Validation Loss',fontsize=20)
-plt.legend()
-plt.subplot(1,2,2)
-plt.plot(train_history['accuracy'],label='Training Accuracy')
-plt.plot(train_history['val_accuracy'],label='Validation Accuracy')
-plt.title('Training & Validation Accuracy',fontsize=20)
-plt.legend()
-
-
-# Create an ImageDataGenerator for test data with rescaling
-test_image_data_generator = ImageDataGenerator(
-    rescale=1.0 / 255,  # Preprocess: scale color values to the range [0, 1]
-)
-
-# Create a generator for test data using a dataframe
-test_generator = test_image_data_generator.flow_from_dataframe(
-    dataframe=validation_data,
-    x_col="Path",             # Column containing file paths
-    y_col='Label',            # Column containing class labels
-    batch_size=32,            # Batch size for training
-    class_mode="categorical", # Type of classification task
-    target_size=(224, 224),   # Target size for images
-)
-
-# Evaluate the model on the test data generator
-test_score, test_accuracy = model.evaluate(test_generator)
-
-# Display test loss & accuracy
-print('Test Loss = {:.2%}'.format(test_score), '|', test_score)
-print('Test Accuracy = {:.2%}'.format(test_accuracy), '|', test_accuracy, '\n')
-
-
-# Create a list of tuples representing model evaluation results for validation and test datasets
-Accuracy = [('Validation', validation_score, validation_accuracy),
-          ('Test', test_score, test_accuracy)
-         ]
-
-# Create a DataFrame using the loss & accuracy data of both test & validation
-predict_test = pd.DataFrame(data=Accuracy, columns=['Model', 'Loss', 'Accuracy'])
-print(predict_test)
-
-
-# Create a test data generator
-test_image_data_generator = ImageDataGenerator(rescale=1.0 / 255)
-test_generator = test_image_data_generator.flow_from_dataframe(
-    dataframe=validation_data,
-    x_col="Path",             # Column containing file paths
-    y_col="Label",            # Column containing class labels
-    batch_size=32,            # Batch size for testing
-    class_mode="categorical", # Type of classification task
-    target_size=(224, 224),   # Target size for images
-)
-
-# Evaluate the model on the test data
-test_score, test_accuracy = model.evaluate(test_generator)
-print('Test Loss = {:.2%}'.format(test_score), '|', test_score)
-print('Test Accuracy = {:.2%}'.format(test_accuracy), '|', test_accuracy, '\n')
-"""

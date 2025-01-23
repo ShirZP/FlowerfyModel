@@ -19,7 +19,7 @@ labels = ["astilbe", "bellflower", "black_eyed_susan", "calendula", "california_
 def extract_class_name(image_path):
     return os.path.basename(os.path.dirname(image_path))
 
-img_path = '../dataset/test/bellflower/08.jpeg'
+img_path = '../dataset/test/bellflower/14.jpg'
 img = image.load_img(img_path, target_size=(224, 224))
 img_array = np.expand_dims(image.img_to_array(img), axis=0) / 255.0  # Normalize the image
 predictions = model.predict(img_array)

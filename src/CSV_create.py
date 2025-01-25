@@ -2,10 +2,7 @@ import glob
 import os
 import pandas as pd
 from tensorflow.keras.models import load_model
-from PIL import Image
-import matplotlib.pyplot as plt
 from tensorflow.keras.preprocessing import image
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 
 # Load the weights of the trained model from the specified checkpoint file

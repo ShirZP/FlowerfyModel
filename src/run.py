@@ -1,7 +1,5 @@
 import os
 import glob
-import cv2                      # OpenCV
-from PIL import Image           # Pillow
 import numpy as np              # NumPy
 import pandas as pd             # Pandas
 import matplotlib.pyplot as plt # Matplotlib
@@ -13,20 +11,15 @@ from tensorflow.keras import layers, models
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.applications import InceptionV3
-from tensorflow.keras.preprocessing import image
-from tensorflow.keras.applications.inception_v3 import preprocess_input
 
-# scikit-learn
-from sklearn.metrics import confusion_matrix, accuracy_score
-from sklearn.metrics import classification_report
-
-#--------------------------- Read Dataset ----------------------------
+# --------------------------- Read Dataset ----------------------------
 
 # Define the path to the directory containing the images for training
 train_data = '../dataset/train'
 
 # Create a Pandas DataFrame with a single column
 # The column is populated with the list of file/directory names in the 'train_data' directory
+# For visual display
 pd.DataFrame(
     os.listdir(train_data),
     columns=['File Name']
@@ -38,11 +31,15 @@ val_data ='../dataset/val'
 
 # Create a Pandas DataFrame with a single column
 # The column is populated with the list of file/directory names in the 'validation_data' directory
-pd.DataFrame(os.listdir(val_data), columns=['File Name'])
+# For visual display
+pd.DataFrame(
+    os.listdir(val_data),
+    columns=['File Name']
+)
 
 
 # Get a list of the file paths in the 'train_data' directory
-train_files = [i for i in glob.glob(train_data + "/*/*")]
+train_files = [i for i in glob.glob(train_data + "/*/*")]  # All train images paths
 train_files = [i.replace("\\", "/") for i in train_files]
 
 # Randomly shuffle the list of file paths

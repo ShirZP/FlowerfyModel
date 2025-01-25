@@ -1,11 +1,8 @@
-import glob
 import os
-import pandas as pd
 from tensorflow.keras.models import load_model
 from PIL import Image
 import matplotlib.pyplot as plt
 from tensorflow.keras.preprocessing import image
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 
 # Load the weights of the trained model from the specified checkpoint file
@@ -22,9 +19,9 @@ def extract_class_name(image_path):
 img_path = '../dataset/test/bellflower/14.jpg'
 img = image.load_img(img_path, target_size=(224, 224))
 img_array = np.expand_dims(image.img_to_array(img), axis=0) / 255.0  # Normalize the image
-predictions = model.predict(img_array)
-predicted_class = np.argmax(predictions)
-predicted_class_label = labels[predicted_class]
+predictions = model.predict(img_array)  # Make predictions on the single image
+predicted_class = np.argmax(predictions)  # Get the index of the class with the highest probability
+predicted_class_label = labels[predicted_class]  # Get the label of the predicted class
 true_class_label = extract_class_name(img_path)
 
 
